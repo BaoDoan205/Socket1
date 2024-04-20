@@ -1,0 +1,32 @@
+package Socket_Tuan1_Bai2;
+
+import java.io.*;
+import java.net.*;
+
+public class TimeServer {
+    public static void main(String[] args) {
+        int portNumber = 5555;
+
+        try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
+            System.out.println("Server is running...");
+            while (true) {
+                try (Socket clientSocket = serverSocket.accept();
+                     PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null) {
+                        if ("time".equals(inputLine)) {
+                            // Phản hồi lại thời gian hiện tại
+                            out.println(System.currentTimeMillis());
+                        }
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error handling client request: " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Could not listen on port " + portNumber);
+            System.exit(-1);
+        }
+    }
+}

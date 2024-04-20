@@ -1,0 +1,36 @@
+package Socket_Tuan1_Bai2;
+
+import javax.swing.*;
+import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class ClockClient {
+    private JLabel clockLabel;
+
+    public ClockClient() {
+        JFrame frame = new JFrame("Đồng hồ");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(200, 100);
+
+        clockLabel = new JLabel();
+        clockLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        frame.add(clockLabel, BorderLayout.CENTER);
+
+        frame.setVisible(true);
+
+        // Cập nhật đồng hồ mỗi giây
+        Timer timer = new Timer(1000, e -> updateClock());
+        timer.start();
+    }
+
+    private void updateClock() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        String time = dateFormat.format(new Date());
+        clockLabel.setText(time);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(ClockClient::new);
+    }
+}
